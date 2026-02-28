@@ -1,0 +1,9 @@
+# 告警映射資料庫 (Alert Database)
+
+在環境支援 Obsidian 時，Agent 可以透過 `obsidian bases query` 直接查詢映射。
+（即使無 Obsidian，Agent 也能透過此表格精確知道該尋找哪份 SOP）
+
+| alert_id | SOP_Path | Component | Description |
+|---|---|---|---|
+| P001 | [[SOP_Restart_Nginx]] | Nginx | Nginx CPU 使用率連續 5 分鐘超過 90% |
+| P002 | [[SOP_Scale_Redis]] | Redis | Redis 叢集記憶體不足 |

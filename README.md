@@ -33,16 +33,17 @@
 
 ```text
 ├── SKILL.md                 # Agent 檢索指令核心指南
-├── references/              # 知識庫根目錄 (Knowledge Source)
+├── references_example/      # 範例知識庫目錄 (體驗用黃金範本，展示 YAML 屬性、Bases 與反向連結等進階操作)
 │   ├── 01_triage_rules/     # 第一層：快速分選 (如：告警 ID 對照表、初判邏輯)
 │   ├── 02_procedures/       # 第二層：標準作業流程 (如：Troubleshooting SOP、系統變更SOP)
 │   ├── 03_system_context/   # 第三層：深度細節 (如：系統架構、資源清單、配置基準)
 │   └── 04_atomic_assets/    # 第四層：可組合件 (如：腳本、日誌分析 Prompt 片段)
+├── references/              # 實戰知識庫根目錄 (請依照上述架構自行建立自己的知識庫)
 ├── assets/                  # 靜態資源 (SOP 圖片等，讓 markdown 檔案可以引用方便人類閱讀)
 └── tests/                   # 模擬測試案例
 ```
 
-*每一層目錄皆應包含 `index.md` 文件作為該層的導航地圖。*
+*每一層目錄皆應包含 `index.md` 文件作為該層的導航地圖。您可以直接參考 `references_example/` 目錄，了解如何撰寫包含屬性標籤與 WikiLinks 取向的維運文件。*
 
 ---
 
@@ -108,7 +109,8 @@
 
 2.  **使用純文字檔案與標準格式**
     *   絕對避免使用 PDF、Word 等非純文字格式，這會巨幅增加 Agent 檢索與解析的難度與出錯率。本 Skill 假設所有文件皆為純文字檔案 (.md, .txt, .yaml, .json 等)。
-    *   系統參數盡可能以格式化的 JSON 或 YAML 提供（例如：將 Excel 配置表轉為 YAML）。
+    *   **針對系統數據與參數 (如 JSON/YAML/CSV)**：雖然系統參數可以直接儲存為原始的 JSON 或 YAML 供工程師閱讀，但若要**最大化 Obsidian 的圖譜檢索效益**，強烈建議將這些數據「包裹」在一份 Markdown (`.md`) 檔案中。您可以將欄位定義在 YAML Frontmatter 裡，或利用 Markdown Table 呈現。
+    *   **針對超大型原始數據 (巨型 Log 或 Config)**：如果原始資料檔非常巨大(例如超過 500 行)，**請保留原有的 `.json` 或 `.csv` 檔案**。但為了確保它不是圖譜中的孤島，請建立一個同名的 `.md` 檔案作為「代理 (Proxy/Wrapper)」。在這個 `.md` 檔案中加入 `Tags`、說明，並附上 `[點擊查看原始資料檔](./raw_data.json)` 的相對連結。這樣 Agent 就能透過檢視 `.md` 的屬性，在必要時精準下鑽到真正的巨型資料檔。
     *   系統架構圖考慮轉換成 Mermaid 語法繪製，方便 Agent 直接結合架構脈絡回答問題。
 
 3.  **提供明確的標題與結構**
