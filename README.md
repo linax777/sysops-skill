@@ -55,7 +55,9 @@
     *   **特點**：精確控制讀取範圍與 Token 消耗，不使用傳統 RAG 向量搜尋，避免幻覺並保持上下文。
 2.  **`sysops-linter-skill` (知識庫格式稽核員)**
     *   **用途**：當使用者要求「檢查知識庫健康度」、「驗證文件撰寫格式」或「找出不符合標籤規範的文件」時使用。
-    *   **特點**：執行靜態 Python 分析腳本，瞬間揪出超過 500 行的過大檔案、缺少 `Tags:` 的 `index.md` 項目，以及混入的二進位檔案 (如 PDF, Word)。
+    *   **特點**：執行靜態 Python 分析腳本掃描知識庫。具備兩種等級的檢查：
+        *   **嚴格違規檢查**：瞬間揪出超過 500 行的過大檔案、缺少 `Tags:` 的 `index.md` 項目，以及混入的二進位檔案 (如 PDF, Word)。
+        *   **進階優化提醒 (Soft Checks)**：自動檢查 Markdown 檔案是否具備 Obsidian 支援的 YAML Frontmatter (如 `alert_id:`) 屬性。以「建議」而非「報錯」的形式，溫和地引導維護團隊採用漸進式揭露的最佳實踐。
 
 ---
 
@@ -140,6 +142,24 @@ grep -rin "MySQL" references/**/index.md
 # 在系統配置與架構區，尋找所有包含 Nginx 的段落
 grep -rin "Nginx" references/03_system_context/
 ```
+
+---
+
+## 💎 Obsidian 增強檢索 (進階推薦)
+
+雖然本專案使用標準的 Unix 工具 (`grep`) 作為基準檢索機制，但我們**強烈推薦**您使用 [Obsidian](https://obsidian.md/) 搭配其官方 CLI 工具來維護與檢索知識庫。
+
+當您的環境支援 `obsidian` CLI 時，`sysops-skill` AI 助手將自動升級為強大的「圖譜式檢索系統」，具備以下顛覆性的優勢：
+
+1.  **資料庫化查詢 (Bases)**：
+    利用 YAML Frontmatter (`--- alert_id: P001 ---`) 與映射文件 (`.base`)，Agent 能夠像執行 SQL 語句般下達 `obsidian bases query`，絕對精準鎖定特定告警對應的 SOP，從根源消滅全文檢索帶來的幻覺 (Zero Hallucination)。
+2.  **漸進式揭露 (Progressive Disclosure) 與反向連結 (Backlinks)**：
+    透過在文件中使用 `[[WikiLinks]]`，您的文件將形成一個知識圖譜。Agent 可利用 `obsidian backlinks` 主動發現「有哪些後續處理腳本或配置檔，關聯了當前的這份 SOP」，實現如人類工程師般「順藤摸瓜」的進階除錯思維。
+3.  **極速全文與屬性搜尋**：
+    透過 `obsidian search` 直接調用 Obsidian 優異的本機索引引擎，支援強大的標籤 (`tag:#DB`) 與屬性範圍限縮，大幅降低無效檢索時間。
+
+**💡 給維護者的建議：** 
+在您的 SOP 檔案開頭加入 YAML 屬性，並多加利用 `[[文件名稱]]` 建立關聯，您的 AI 助手會變得前所未有的聰明！並可利用內建的 `sysops-linter-skill` 隨時檢查文件是否符合這些優化規範。
 
 ---
 

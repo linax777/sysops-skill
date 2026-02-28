@@ -29,14 +29,16 @@ Step 2: Run Validation Script
 python .agent/skills/sysops-linter-skill/scripts/validate_kb.py <目標目錄>
 ```
 這支腳本將會進行以下檢查，並直接在標準輸出 (stdout) 顯示發現的問題：
-- **Large Files**: 行數大於 500 行的超大型 Markdown 檔案。
-- **Invalid Formats**: 混入知識庫的非純文字檔案 (如 pdf, docx, xlsx)。
-- **Missing Tags**: 最底層 (無子目錄) 的 `index.md` 檔案中，缺少 `Tags: [...]` 格式的項目。
+- **Large Files** [違規]: 行數大於 500 行的超大型 Markdown 檔案。
+- **Invalid Formats** [違規]: 混入知識庫的非純文字檔案 (如 pdf, docx, xlsx)。
+- **Missing Tags** [違規]: 最底層 (無子目錄) 的 `index.md` 檔案中，缺少 `Tags: [...]` 格式的項目。
+- **YAML Frontmatter** [建議/Notice]: 檢查一般 `.md` 檔案是否包含 YAML 屬性 (提升 Obsidian 檢索能力)。此項屬非強制性優化建議。
 
 Step 3: Analyze Script Output
 讀取 `validate_kb.py` 的執行結果 (stdout/stderr)。若腳本發生未預期的例外錯誤，請將錯誤訊息回報給使用者。
 
 Step 4: Format the Audit Report
 將 Step 3 取得的掃描結果，按照 `.agent/skills/sysops-linter-skill/assets/report_template.md` 所定義的格式，產生最終的驗證報告並輸出給使用者。
-- 若腳本沒有發現任何問題，請在報告中給予綠色的勾勾或恭喜訊息。
+- 若腳本沒有發現任何「違規」，請在報告中給予綠色的勾勾或恭喜訊息。
 - 若發現特定違規，請依範本清楚列出檔名及違規原因。
+- **針對 `[Notice]` 等級的建議**，請在報告結尾處額外補充一個「💡 優化建議 (Soft Recommendations)」區塊，列出缺乏 YAML Frontmatter 的檔案，鼓勵（但不強迫）使用者補上以發揮 Obsidian 最大效益。
