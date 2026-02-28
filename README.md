@@ -2,7 +2,7 @@
 
 本專案是一個實驗性的概念項目，旨在為系統維運團隊提供一個**高效能、低幻覺、且支援無限擴充**的知識庫檢索 Agent 解決方案。
 
-本專案 fork 自 [ConardLi/rag-skill](https://github.com/ConardLi/rag-skill)，並特別針對系統維運情境（SOP、Troubleshooting、架構文件等）進行深度的目錄結構最佳化與檢索邏輯強化。
+本專案 fork 自 [ConardLi/rag-skill](https://github.com/ConardLi/rag-skill)，並特別針對系統維運情境（SOP、Troubleshooting、架構文件等）進行深度的目錄結構最佳化與檢索邏輯強化。再加入 Obsidian 的 WikiLinks 與 YAML Frontmatter 屬性，讓知識庫更具結構性與可擴充性。
 
 ---
 
